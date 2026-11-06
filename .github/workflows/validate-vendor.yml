@@ -1,0 +1,25 @@
+name: Validate mist-only vendor scaffold
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require lightweight vendor source layout
+        run: |
+          test -f README.md
+          test -f proprietary-files.txt
+          test -f mist-vendor.mk
+          test -f BoardConfigVendor.mk
+          if git ls-files | grep -E '\.(img|so|ko|tgz)$'; then
+            echo 'Unexpected firmware/binary artifact committed' >&2
+            exit 1
+          fi
+          echo 'Vendor scaffold is source-only and contains no copied firmware'

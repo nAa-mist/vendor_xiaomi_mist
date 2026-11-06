@@ -1,0 +1,2 @@
+# mist-specific proprietary blobs only
+# No additional files verified. Do not duplicate the SM4450 common vendor entries.
